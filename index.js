@@ -1,5 +1,5 @@
 import http from 'http'
-const PORT = 3000
+const PORT = process.env.PORT || 3000
 const DEFAULT_HEADER = {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': 'http://127.0.0.1:5500',
