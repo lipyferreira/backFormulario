@@ -119,7 +119,8 @@ const routes = {
 const gererPDF = (alunosString) =>{
         const doc = new jsPDF()
         doc.text(alunosString, 10, 10)
-        doc.save('../front/alunos.pdf')
+        doc.save('https://back-formulario.vercel.app/alunos.pdf')
+        // doc.save('../front/alunos.pdf')
 }
 
 const handlerError = response => {
