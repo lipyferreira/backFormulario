@@ -119,7 +119,7 @@ const routes = {
 const gererPDF = (alunosString) =>{
         const doc = new jsPDF()
         doc.text(alunosString, 10, 10)
-        doc.save('alunos.pdf')
+        doc.save('../front/alunos.pdf')
 }
 
 const handlerError = response => {
