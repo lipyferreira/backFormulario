@@ -119,7 +119,7 @@ const routes = {
 const gererPDF = (alunosString) =>{
         const doc = new jsPDF()
         doc.text(alunosString, 10, 10)
-        doc.save('https://back-formulario.vercel.app/alunos.pdf')
+        doc.save('https://regal-gumption-f8b0f4.netlify.app/alunos.pdf')
         // doc.save('../front/alunos.pdf')
 }
 
