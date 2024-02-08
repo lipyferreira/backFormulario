@@ -2,7 +2,7 @@ import http from 'http'
 const PORT = process.env.PORT || 3000
 const DEFAULT_HEADER = {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': 'https://65b5a8f6213eeefc4d80ced8--regal-gumption-f8b0f4.netlify.app',
+    'Access-Control-Allow-Origin': 'https://regal-gumption-f8b0f4.netlify.app',
     // 'Access-Control-Allow-Origin': 'http://127.0.0.1:5500',
     'Access-Control-Allow-Methods': '*'
 }
