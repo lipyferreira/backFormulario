@@ -2,8 +2,8 @@ import http from 'http'
 const PORT = process.env.PORT || 3000
 const DEFAULT_HEADER = {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': 'https://regal-gumption-f8b0f4.netlify.app',
-    // 'Access-Control-Allow-Origin': 'http://127.0.0.1:5500',
+    // 'Access-Control-Allow-Origin': 'https://regal-gumption-f8b0f4.netlify.app',
+    'Access-Control-Allow-Origin': 'http://127.0.0.1:5500',
     'Access-Control-Allow-Methods': '*'
 }
 import Fatory from './factories/factorie.js'
@@ -35,14 +35,16 @@ const routes = {
             const { nome, faixa, telefone, nascimento } = aluno[key]
             alunosString = alunosString + '\n\n' + JSON.stringify(`${count + 1} - ID: ${key} - ` + nome) + '\n' +
                 JSON.stringify('Faixa: ' + faixa + ' - Contato: ' + telefone + ' Data de nascimento: ' + nascimento)
+            
+
 
             count++
         }
 
-        gererPDF(alunosString)
+        // gererPDF(alunosString)
 
-        response.write(JSON.stringify({ results: 'api privada' }))
-        response.end()
+        response.write(JSON.stringify('Dados privados'))
+        response.end(alunosString)
 
     },
 
@@ -116,12 +118,12 @@ const routes = {
 }
 
 
-const gererPDF = (alunosString) =>{
-        const doc = new jsPDF()
-        doc.text(alunosString, 10, 10)
-        doc.save('https://regal-gumption-f8b0f4.netlify.app/alunos.pdf')
+// const gererPDF = (alunosString) =>{
+//         const doc = new jsPDF()
+//         doc.text(alunosString, 10, 10)
+//         doc.save('./alunos.pdf')
         // doc.save('../front/alunos.pdf')
-}
+// }
 
 const handlerError = response => {
     return error => {
