@@ -2,8 +2,8 @@ import http from 'http'
 const PORT = process.env.PORT || 3000
 const DEFAULT_HEADER = {
     'Content-Type': 'application/json',
-    // 'Access-Control-Allow-Origin': 'https://regal-gumption-f8b0f4.netlify.app',
-    'Access-Control-Allow-Origin': 'http://127.0.0.1:5500',
+    'Access-Control-Allow-Origin': 'https://regal-gumption-f8b0f4.netlify.app',
+    // 'Access-Control-Allow-Origin': 'http://127.0.0.1:5500',
     'Access-Control-Allow-Methods': '*'
 }
 import Fatory from './factories/factorie.js'
