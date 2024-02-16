@@ -2,15 +2,13 @@ import http from 'http'
 const PORT = process.env.PORT || 3000
 const DEFAULT_HEADER = {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': 'https://regal-gumption-f8b0f4.netlify.app',
-    // 'Access-Control-Allow-Origin': 'http://127.0.0.1:5500',
+    // 'Access-Control-Allow-Origin': 'https://regal-gumption-f8b0f4.netlify.app',
+    'Access-Control-Allow-Origin': 'http://127.0.0.1:5500',
     'Access-Control-Allow-Methods': '*'
 }
 import Fatory from './factories/factorie.js'
 const Service = Fatory.generateInstace()
 import Aluno from './entities/aluno.js'
-import { jsPDF } from "jspdf";
-import 'jspdf-autotable'
 
 const routes = {
     '/aluno:get': async (request, response) => {
@@ -26,25 +24,22 @@ const routes = {
 
 
     '/all:get': async (request, response) => {
-
+        
         const aluno = await Service._findAll()
 
         let alunosString = ''
         let count = 0
         for (const key in aluno) {
             const { nome, faixa, telefone, nascimento } = aluno[key]
-            alunosString = alunosString + '\n\n' + JSON.stringify(`${count + 1} - ID: ${key} - ` + nome) + '\n' +
-                JSON.stringify('Faixa: ' + faixa + ' - Contato: ' + telefone + ' Data de nascimento: ' + nascimento)
-            
-
+              alunosString = alunosString + '\n\n' + JSON.stringify(`${count + 1} - ID: ${key} - ` + nome +
+               ' - Faixa: ' + faixa + ' - Contato: ' + telefone + ' Data de nascimento: ' + nascimento)
 
             count++
         }
-
-        // gererPDF(alunosString)
-
-        response.write(JSON.stringify('Dados privados'))
-        response.end(alunosString)
+        
+        response.write(JSON.stringify({results: alunosString.replace(/[\\"]/g, ''), count}))
+        response.end()
+        
 
     },
 
@@ -117,14 +112,6 @@ const routes = {
     }
 }
 
-
-// const gererPDF = (alunosString) =>{
-//         const doc = new jsPDF()
-//         doc.text(alunosString, 10, 10)
-//         doc.save('./alunos.pdf')
-        // doc.save('../front/alunos.pdf')
-// }
-
 const handlerError = response => {
     return error => {
         console.error('Deu ruim', error)
@@ -138,7 +125,7 @@ const handlerError = response => {
 const handler = (request, response) => {
     const { url, method } = request
 
-    console.log(url);
+    // console.log(url);
     const [first, route, id] = url.split('/')
 
     request.queryString = { id: isNaN(id) ? id : Number(id) }
