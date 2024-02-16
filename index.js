@@ -2,8 +2,8 @@ import http from 'http'
 const PORT = process.env.PORT || 3000
 const DEFAULT_HEADER = {
     'Content-Type': 'application/json',
-    // 'Access-Control-Allow-Origin': 'https://regal-gumption-f8b0f4.netlify.app',
-    'Access-Control-Allow-Origin': 'http://127.0.0.1:5500',
+    'Access-Control-Allow-Origin': 'https://regal-gumption-f8b0f4.netlify.app',
+    // 'Access-Control-Allow-Origin': 'http://127.0.0.1:5500',
     'Access-Control-Allow-Methods': '*'
 }
 import Fatory from './factories/factorie.js'
@@ -37,7 +37,7 @@ const routes = {
             count++
         }
         const allAlunos = alunosString.replace(/[\\"]/g, '')
-        
+
         response.write(JSON.stringify({results: allAlunos, count}))
         response.end()
         
@@ -126,7 +126,6 @@ const handlerError = response => {
 const handler = (request, response) => {
     const { url, method } = request
 
-    // console.log(url);
     const [first, route, id] = url.split('/')
 
     request.queryString = { id: isNaN(id) ? id : Number(id) }
