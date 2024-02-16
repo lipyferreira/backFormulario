@@ -36,8 +36,9 @@ const routes = {
 
             count++
         }
+        const allAlunos = alunosString.replace(/[\\"]/g, '')
         
-        response.write(JSON.stringify({results: alunosString.replace(/[\\"]/g, ''), count}))
+        response.write(JSON.stringify({results: allAlunos, count}))
         response.end()
         
 
