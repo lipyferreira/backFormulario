@@ -2,8 +2,8 @@ import http from 'http'
 const PORT = process.env.PORT || 3000
 const DEFAULT_HEADER = {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': 'https://regal-gumption-f8b0f4.netlify.app',
-    // 'Access-Control-Allow-Origin': 'http://127.0.0.1:5500',
+    // 'Access-Control-Allow-Origin': 'https://regal-gumption-f8b0f4.netlify.app',
+    'Access-Control-Allow-Origin': 'http://127.0.0.1:5500',
     'Access-Control-Allow-Methods': '*'
 }
 import Fatory from './factories/factorie.js'
@@ -14,36 +14,12 @@ const routes = {
     '/aluno:get': async (request, response) => {
         const { id } = request.queryString
         
-        if (!id) {
-            const allAlunos = await Service._findAll()
-        }
         const aluno = await Service.find(id)
         response.write(JSON.stringify({ results: aluno }))
         response.end()
     },
 
-
-    '/all:get': async (request, response) => {
-        
-        const aluno = await Service._findAll()
-
-        let alunosString = ''
-        let count = 0
-        for (const key in aluno) {
-            const { nome, faixa, telefone, nascimento } = aluno[key]
-              alunosString = alunosString + '\n\n' + JSON.stringify(`${count + 1} - ID: ${key} - ` + nome +
-               ' - Faixa: ' + faixa + ' - Contato: ' + telefone + ' Data de nascimento: ' + nascimento)
-
-            count++
-        }
-        const allAlunos = alunosString.replace(/[\\"]/g, '')
-
-        response.write(JSON.stringify({results: allAlunos, count}))
-        response.end()
-        
-
-    },
-
+    
     '/aluno:post': async (request, response) => {
         //async interator
         for await (const data of request) {
@@ -107,6 +83,27 @@ const routes = {
 
     },
 
+    '/all:get': async (request, response) => {
+       
+        const aluno = await Service._findAll()
+
+        let alunosString = ''
+        let count = 0
+        for (const key in aluno) {
+            const { nome, faixa, telefone, nascimento } = aluno[key]
+              alunosString = alunosString + '\n\n' + JSON.stringify(`${count + 1} - ID: ${key} - ` + nome +
+               ' - Faixa: ' + faixa + ' - Contato: ' + telefone + ' Data de nascimento: ' + nascimento)
+
+            count++
+        }
+        const allAlunos = alunosString.replace(/[\\"]/g, '')
+
+        response.write(JSON.stringify({results: allAlunos, count}))
+        response.end()
+        
+
+    },
+
     default: (request, response) => {
         response.write('Helo')
         response.end()
@@ -133,10 +130,16 @@ const handler = (request, response) => {
     const key = `/${route}:${method.toLowerCase()}`
     
     response.writeHead(200, DEFAULT_HEADER)
-  
+    
     const chosen = routes[key] || routes.default
+   
+    return chosen(request, response) ? chosen(request, response) : handlerError(response) 
 
-    return chosen(request, response) ? chosen(request, response) : handlerError(response)
+         
+
+
+    
+
 
 }
 http.createServer(handler)
